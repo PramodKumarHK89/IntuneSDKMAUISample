@@ -13,10 +13,10 @@ namespace MauiAppTutorial
     {
         public string AcquireToken(string upn, string aadId, string resourceId)
         {
-            resourceId = "https://wip.mam.manage.microsoft.us//DeviceManagementManagedApps.ReadWrite";
-            Task<string> token = PublicClientSingleton.Instance.AcquireTokenSilentMAM(resourceId);
+            resourceId = "https://msmamservice.api.application/.default";
+            var token = PublicClientSingleton.Instance.AcquireTokenSilentMAM(resourceId).Result;
 
-            return token?.Result;
+            return token;
         }
     }
 }

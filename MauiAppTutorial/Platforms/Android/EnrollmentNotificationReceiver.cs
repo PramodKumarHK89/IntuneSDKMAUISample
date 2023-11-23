@@ -46,7 +46,7 @@ namespace MauiAppTutorial
             IMAMEnrollmentNotification enrollmentNotification = notification.JavaCast<IMAMEnrollmentNotification>();
             var result = enrollmentNotification.EnrollmentResult;
             string upn = enrollmentNotification.UserIdentity;
-
+            string oid = enrollmentNotification.UserOid;
             string message = string.Format(
                 "Received MAM Enrollment result {0} for user {1}.", result.Name(), upn);
             Log.Info(GetType().Name, message);
@@ -65,14 +65,15 @@ namespace MauiAppTutorial
             }
             else if (result.Equals(IMAMEnrollmentManager.Result.AuthorizationNeeded))
             {
+                string respurceID = "https://msmamservice.api.application/.default";
                 // Attempt to re-authorize.
-                string token = PublicClientSingleton.Instance.AcquireTokenSilentMAM("").Result;
+                string token = PublicClientSingleton.Instance.AcquireTokenSilentMAM(respurceID).Result;
 
 
                 if (!string.IsNullOrWhiteSpace(token))
                 {
                     IMAMEnrollmentManager mgr = MAMComponents.Get<IMAMEnrollmentManager>();
-                    mgr.UpdateToken("", "", "", token);
+                    mgr.UpdateToken(upn, oid, respurceID, token);
                 }
             }
             else if (result.Equals(IMAMEnrollmentManager.Result.CompanyPortalRequired))

@@ -7,7 +7,7 @@ using Microsoft.Intune.Mam.Policy.Notification;
 
 namespace MauiAppTutorial
 {
-    [Application]
+    [Application(Debuggable =false)]
     public class MainApplication : MauiApplication
     {
         TaskCompletionSource<bool> _enrollmentTask;
